@@ -94,12 +94,14 @@ for instances in parsed['Reservations']:
 if options.grep:
   all_instances = [inst for inst in all_instances if options.grep in extract_name(inst)]
 
+all_instances = sorted(all_instances, key = lambda k: extract_name(k))
+
 if not num:
   print "\nServers list:\n"
   for i, instance in enumerate(all_instances, 1):
     choice = '[%d]' % i
     name = extract_name(instance)
-    print '%-4s %-55s %-30s' % (choice, instance['PublicDnsName'], name)
+    print '%-4s %-55s %-30s %-15s %-15s' % (choice, instance['PublicDnsName'], name, instance['PrivateIpAddress'], instance['InstanceId'])
 
 default_num = 1
 if os.path.exists(cache_file_num):
